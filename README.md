@@ -1,1 +1,1 @@
-# snake-battle
+# Snake Battle
