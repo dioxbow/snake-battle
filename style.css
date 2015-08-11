@@ -1,0 +1,10 @@
+h1 {
+	font-family: "Verdana", sans-serif;
+	text-align: center;
+	margin: auto;
+}
+
+canvas {
+	margin: auto;
+	display: block;
+}
