@@ -1,5 +1,7 @@
 var WIDTH, HEIGHT;
 var canvas, ctx;
+var input;
+var player;
 
 function main() {
 	WIDTH = 500;
@@ -9,12 +11,23 @@ function main() {
 	canvas.width = WIDTH;
 	canvas.height = HEIGHT;
 	ctx = canvas.getContext("2d");
-	input = new InputManager();
 
 	init();
 }
 
 function init() {
+	input = new InputManager();
+
+	player = [];
+	player.push(new Segment(WIDTH/2-10, HEIGHT/2-10, "player", 20, 0, 1));
+	player.push(new Segment(WIDTH/2-9, HEIGHT/2-10, "player", 18, 0, 1));
+	player.push(new Segment(WIDTH/2-8, HEIGHT/2-10, "player", 16, 0, 1));
+	player.push(new Segment(WIDTH/2-7, HEIGHT/2-10, "player", 14, 0, 1));
+	player.push(new Segment(WIDTH/2-6, HEIGHT/2-10, "player", 12, 0, 1));
+	player.push(new Segment(WIDTH/2-5, HEIGHT/2-10, "player", 10, 0, 1));
+	player.push(new Segment(WIDTH/2-4, HEIGHT/2-10, "player", 8, 0, 1));
+	player.push(new Segment(WIDTH/2-3, HEIGHT/2-10, "player", 6, 0, 1));
+
 	window.requestAnimationFrame(loop);
 }
 
@@ -24,23 +37,21 @@ function loop() {
 	window.requestAnimationFrame(loop);
 }
 
-function update() {}
+function update() {
+	//player[0].updateTail(input.getMouse("x"), input.getMouse("y"), 0);
+	player[0].updateHead();
+	for (var i = 1; i < player.length; i++) {
+		player[i].updateTail(player[i-1].x, player[i-1].y, player[i-1].getSize());
+	}
+}
 
 function draw() {
 	ctx.fillRect(0, 0, WIDTH, HEIGHT);
 	ctx.save();
 
-	ctx.fillStyle = "#ffffff";
-	ctx.font = "20px Verdana, sans-serif";
-	ctx.textAlign = "center";
-	ctx.textBaseline = "middle";
-	ctx.fillText("Focus: " + input.getFocus(), WIDTH/2, 40);
-	ctx.fillText("Mouse down: " + input.getMouse("down"), WIDTH/2, 60);
-	ctx.fillText("Mouse (x, y): " + input.getMouse("x") +  ", " + input.getMouse("y"), WIDTH/2, 80);
-	ctx.fillText("Up: " + input.getKey("up"), WIDTH/2, 100);
-	ctx.fillText("Down: " + input.getKey("down"), WIDTH/2, 120);
-	ctx.fillText("Left: " + input.getKey("left"), WIDTH/2, 140);
-	ctx.fillText("Right: " + input.getKey("right"), WIDTH/2, 160);
+	for (var i = 0; i < player.length; i++) {
+		player[i].draw();
+	}
 
 	ctx.restore();
 }

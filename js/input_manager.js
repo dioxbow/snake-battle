@@ -1,9 +1,8 @@
 function InputManager() {
-
-	var focus = false;
-	var mouse = {down: false, x: null, y: null};
-	var keystate = {};
-	var keys = {
+	var _focus = false;
+	var _mouse = {down: false, x: null, y: null};
+	var _keystate = {};
+	var _keys = {
 		backspace:8,
 		tab:9,
 		enter:13,
@@ -55,43 +54,41 @@ function InputManager() {
 	$(function() {
 		$(document)
 			.mouseup(function() {
-				mouse.down = false;
+				_mouse.down = false;
 			}).mousemove(function(event) {
-				mouse.x = event.clientX - canvas.getBoundingClientRect().left;
-				mouse.y = event.clientY - canvas.getBoundingClientRect().top;
+				_mouse.x = event.clientX - canvas.getBoundingClientRect().left;
+				_mouse.y = event.clientY - canvas.getBoundingClientRect().top;
 			}).mousedown(function(event) {
-				focus = true;
-				mouse.down = true;
-				mouse.x = event.clientX;
-				mouse.y = event.clientY;
-				keystate = {};
+				_focus = true;
+				_mouse.down = true;
+				_mouse.x = event.clientX;
+				_mouse.y = event.clientY;
+				_keystate = {};
 			}).keydown(function(event) {
-				keystate[event.keyCode] = true;
+				_keystate[event.keyCode] = true;
 			}).keyup(function(event) {
-				delete keystate[event.keyCode];
+				delete _keystate[event.keyCode];
 			});
 		$(window)
 			.blur(function() {
-				focus = false;
-				mouse.down = false;
-				keystate = {};
+				_focus = false;
+				_mouse.down = false;
+				_keystate = {};
 			}).focus(function() {
-				focus = true;
+				_focus = true;
 			});
-
 	})
 
 	this.getKey = function(keyName) {
-		if (keystate[keys[keyName]]) return keystate[keys[keyName]];
+		if (_keystate[_keys[keyName]]) return _keystate[_keys[keyName]];
 		else return false;
 	}
 
 	this.getMouse = function(attributeName) {
-		return mouse[attributeName];
+		return _mouse[attributeName];
 	}
 
 	this.getFocus = function() {
-		return focus;
+		return _focus;
 	}
-
 }
